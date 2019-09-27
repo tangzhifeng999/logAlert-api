@@ -12,6 +12,8 @@ PRO = ''  # 生产环境地址
 """
     邮件内容或者是短信内容需要自己根据需要定义即可
 """
+
+
 def send_email1(person_list, app_name, params, start_time, end_time,  times, message):
     """
     发送邮箱通知相关责任人告警
