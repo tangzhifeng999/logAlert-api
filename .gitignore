@@ -1,0 +1,7 @@
+.idea/
+*.py[cop]
+
+
+celerybeat-schedule\.db
+
+celerybeat\.pid

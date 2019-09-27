@@ -1,0 +1,26 @@
+FROM ubuntu:18.04
+
+USER root
+
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update
+RUN apt-get install tzdata
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
+#RUN add-apt-repository ppa:jonathonf/python-3.6
+COPY ./sources.list /etc/apt/sources.list
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple gevent gunicorn
+
+COPY . /src
+WORKDIR /src
+
+RUN pip3 install -i https://mirrors.aliyun.com/pypi/simple -r requirements.txt
+
+ENV LOG_PATH /var/log/logAlert/log.log
+RUN mkdir -p /var/log/logAlert
+
+COPY config.prod.py /src/config.py
+
+CMD ["sh", "start.sh"]
